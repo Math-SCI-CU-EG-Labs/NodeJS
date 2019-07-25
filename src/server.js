@@ -3,11 +3,11 @@ var person = {name:"MG", email:"mg", age: 35};
 
 const fs = require('fs');
 try {
-    const data = fs.readFileSync('person.json', 'utf-8');
+    const data = fs.readFileSync('./person.json', 'utf-8');
     console.log(data);
     person = JSON.parse(data);
 } catch (error) {
-    fs.writeFileSync('person.json',JSON.stringify(person));
+    fs.writeFileSync('./person.json',JSON.stringify(person));
 }
 
 http.createServer((request, response) => {
@@ -33,7 +33,7 @@ http.createServer((request, response) => {
             const oldData = person;
             console.log("body is" + body);
             person = parsedData;
-            fs.writeFile('person.json',JSON.stringify(person),'utf8',function (err) {
+            fs.writeFile('./person.json',JSON.stringify(person),'utf8',function (err) {
                 if (err) throw err;
                 console.log('Saved!');
               });
@@ -44,6 +44,10 @@ http.createServer((request, response) => {
 
           } catch (e) {
             console.error(e.message);
+              
+            response.statusCode = 500;
+            response.setHeader('Content-Type', 'application/json');
+            response.end(JSON.stringify({success:false}));
           }
     });
   } else 
