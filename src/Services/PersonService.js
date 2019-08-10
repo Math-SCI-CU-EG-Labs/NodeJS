@@ -47,7 +47,7 @@ module.exports = class PersonService {
 
     this.personData = newData;
     fs.writeFile(this.fileName, JSON.stringify(this.personData), "utf8", function(err) {
-      if (err) throw err;
+      if (err) new ValidationError({file: "error writing file",err});
       console.log("Saved!");
     });
 
